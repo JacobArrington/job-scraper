@@ -1,0 +1,24 @@
+{
+  "name": "job-scraper",
+  "version": "1.0.0",
+  "main": "jobScript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobArrington/job-scraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JacobArrington/job-scraper/issues"
+  },
+  "homepage": "https://github.com/JacobArrington/job-scraper#readme",
+  "description": "",
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "playwright": "^1.44.1"
+  }
+}
