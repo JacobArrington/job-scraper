@@ -15,18 +15,20 @@ async function scrapeJobs(keyword, location) {
   await page.waitForTimeout(5000); // Wait for 5 seconds before checking for the selector
 
   // Check for the correct selector
-  await page.waitForSelector('div.jobsearch-JobComponent', { timeout: 60000 }); // 60 seconds timeout
+  await page.waitForSelector('div.Job_seen_beacon', { timeout: 60000 }); // Update the selector based on your inspection
 
   // Scrape job links
-  const jobLinks = await page.evaluate(() => {
-    const jobCards = document.querySelectorAll('div.jobsearch-SerpJobCard');
+  const jobLinks = await page.evaluate(async () => {
+    const jobCards = document.querySelectorAll('div.Job_seen_beacon'); // Update the selector based on your inspection
     const links = [];
-    jobCards.forEach((card, index) => {
-      if (index < 20) {
-        const link = card.querySelector('.title a')?.href || 'N/A';
-        links.push(link);
-      }
-    });
+    for (let i = 0; i < jobCards.length && i < 20; i++) {
+      jobCards[i].scrollIntoView();
+      jobCards[i].click();
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for the job details to load
+      const linkElement = document.querySelector('div.jobsearch-RightPane a[data-tn-element="jobTitle"]');
+      const link = linkElement ? linkElement.href : 'N/A';
+      links.push(link);
+    }
     return links;
   });
 
@@ -79,4 +81,5 @@ async function writeLinksToPDF(links, keyword, location) {
   // Write the PDF to a file
   fs.writeFileSync('job_links.pdf', pdfBytes);
 }
-scrapeJobs('Software Engineer', 'NorthCarolina')
+
+scrapeJobs('Software Engineer', 'North Carolina')
