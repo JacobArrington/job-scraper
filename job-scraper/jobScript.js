@@ -3,7 +3,7 @@ const { PDFDocument, StandardFonts } = require('pdf-lib');
 const fs = require('fs');
 
 async function scrapeJobs(keyword, location) {
-  const browser = await chromium.launch();
+  const browser = await chromium.launch({headless: false});
   const page = await browser.newPage();
 
   // Construct the URL based on the user input
@@ -15,22 +15,22 @@ async function scrapeJobs(keyword, location) {
   await page.waitForTimeout(5000); // Wait for 5 seconds before checking for the selector
 
   // Check for the correct selector
-  await page.waitForSelector('div.Job_seen_beacon', { timeout: 60000 }); // Update the selector based on your inspection
+  await page.waitForSelector('.slider_item', { timeout: 60000 });
 
-  // Scrape job links
-  const jobLinks = await page.evaluate(async () => {
-    const jobCards = document.querySelectorAll('div.Job_seen_beacon'); // Update the selector based on your inspection
-    const links = [];
-    for (let i = 0; i < jobCards.length && i < 20; i++) {
-      jobCards[i].scrollIntoView();
-      jobCards[i].click();
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for the job details to load
-      const linkElement = document.querySelector('div.jobsearch-RightPane a[data-tn-element="jobTitle"]');
-      const link = linkElement ? linkElement.href : 'N/A';
-      links.push(link);
-    }
-    return links;
-  });
+// Scrape job links
+const jobLinks = await page.evaluate(async () => {
+  const jobCards = document.querySelectorAll('.slider_item'); // Update the selector based on your inspection
+  const links = [];
+  for (let i = 0; i < jobCards.length && i < 20; i++) {
+    jobCards[i].scrollIntoView();
+    jobCards[i].click();
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait for the job details to load
+    const linkElement = jobCards[i].querySelector('a.jcs-JobTitle');
+    const link = linkElement ? linkElement.href : 'N/A';
+    links.push(link);
+  }
+  return links;
+});
 
   await browser.close();
   
@@ -81,5 +81,6 @@ async function writeLinksToPDF(links, keyword, location) {
   // Write the PDF to a file
   fs.writeFileSync('job_links.pdf', pdfBytes);
 }
+
 
 scrapeJobs('Software Engineer', 'North Carolina')
