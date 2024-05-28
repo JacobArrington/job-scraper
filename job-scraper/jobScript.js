@@ -62,7 +62,7 @@ async function writeLinksToPDF(links, keyword, location) {
     if (yPosition < 50) {
       // Add new page if space is running out
       page = pdfDoc.addPage();
-      yPosition = height - 20;
+      yPosition = height - 30;
     }
 
     page.drawText(link, {
