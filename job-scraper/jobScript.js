@@ -44,7 +44,7 @@ async function writeLinksToPDF(links, keyword, location) {
 
   let page = pdfDoc.addPage();
   const { width, height } = page.getSize();
-  const fontSize = 12;
+  const fontSize = 14;
   let yPosition = height - 10;
 
   // Add title
