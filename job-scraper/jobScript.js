@@ -59,7 +59,7 @@ async function writeLinksToPDF(links, keyword, location) {
 
   // Add job links
   links.forEach(link => {
-    if (yPosition < 50) {
+    if (yPosition < 40) {
       // Add new page if space is running out
       page = pdfDoc.addPage();
       yPosition = height - 30;
