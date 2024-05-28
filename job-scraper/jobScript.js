@@ -45,7 +45,7 @@ async function writeLinksToPDF(links, keyword, location) {
   let page = pdfDoc.addPage();
   const { width, height } = page.getSize();
   const fontSize = 12;
-  let yPosition = height - 20;
+  let yPosition = height - 10;
 
   // Add title
   page.drawText(`Top 20 Job Links for "${keyword}" in "${location}"`, {
