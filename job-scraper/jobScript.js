@@ -66,7 +66,7 @@ async function writeLinksToPDF(links, keyword, location) {
     }
 
     page.drawText(link, {
-      x: 50,
+      x: 40,
       y: yPosition,
       size: fontSize,
       font: timesRomanFont,
