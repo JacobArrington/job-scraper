@@ -9,7 +9,7 @@ async function scrapeJobs(keyword, location) {
   // Construct the URL based on the user input
   const url = `https://www.indeed.com/jobs?q=${encodeURIComponent(keyword)}&l=${encodeURIComponent(location)}`;
 
-  await page.goto(Urf);
+  await page.goto(Urz);
 
   // Increase the timeout
   await page.waitForTimeout(5000); // Wait for 5 seconds before checking for the selector
